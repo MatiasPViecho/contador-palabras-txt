@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 public class Reader {
-	private static final int MAX_AMOUNT = 500;
+	private static final int MAX_AMOUNT = 1000;
 	private String path;
 	private int totalWords;
 	private boolean read;
@@ -29,9 +29,9 @@ public class Reader {
 			this.tryReadFile();
 		}
 	}
-	private String getPath() {
+	protected String getPath() {
 		return this.path;
-	}
+	}//
 	private void tryReadFile() {
 		try(BufferedReader reader = new BufferedReader(new FileReader(this.getPath()))) {
 			String line;
@@ -61,14 +61,21 @@ public class Reader {
 			e.printStackTrace();
 		}
 	}
-	private void setRead(boolean value) {
+	protected void setRead(boolean value) {
 		this.read = value;
+	}
+	public boolean isRead() {
+		return this.read;
 	}
 	private void sumeOneTotalWords() {
 		this.totalWords++;
 	}
-	private void output() {
+	protected void output() {
 		System.out.println("Total de palabras: " + this.totalWords + "\nPalabras más frecuentes:\n");
 		wordFrecuency.entrySet().stream().sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue())).limit(MAX_AMOUNT).forEach(entry -> System.out.println(entry.getKey() + ": " + entry.getValue()));
+		System.out.println("Palabras menos frecuentes");
+		wordFrecuency.entrySet().stream().sorted((e1, e2) -> e1.getValue().compareTo(e2.getValue())).limit(MAX_AMOUNT).forEach(entry -> System.out.println(entry.getKey() + ": " + entry.getValue()));
+		//wordFrecuency.entrySet().stream().sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue())).limit(MAX_AMOUNT).forEach(entry -> System.out.println(entry.getValue()));
+		//wordFrecuency.entrySet().stream().sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue())).limit(MAX_AMOUNT).forEach(entry -> System.out.println(entry.getKey()));
 	}
 }
